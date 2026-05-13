@@ -422,9 +422,9 @@ img{display:block;max-width:100%;height:auto}
     <div>
       <strong>18+</strong>
       <span class="sep">·</span>
-      <a href="/privacy">Personvern</a>
+      <a href="#" data-cta rel="noopener nofollow sponsored">Personvern</a>
       <span class="sep">·</span>
-      <a href="/terms">Vilkår</a>
+      <a href="#" data-cta rel="noopener nofollow sponsored">Vilkår</a>
     </div>
   </footer>
 </div>
@@ -441,7 +441,10 @@ img{display:block;max-width:100%;height:auto}
   // SCENE_DURATION: ms per scene før auto-advance.
   // SITE_NAME: vises i <title>.
   // =========================================================
-  var REDIRECT_URL    = 'https://example.com/signup?aff=AFFID&sub={CITY}&v=b';
+  // Affiliate-lenke fra merchant. {CITY} byttes til detektert sted,
+  // {LEVEL} til geo-presisjonen (url/city/region/fallback). {Pushkampanje}
+  // er en merchant-side macro som annonsenettverket eller du selv fyller inn.
+  var REDIRECT_URL    = 'https://meet-n-hook.com/#/adv/ING176?source={Pushkampanje}&city={CITY}&v=b';
   // Per-scene varighet i ms — første slide (video) får lenger tid for å la
   // brukeren faktisk se motivet før den skifter.
   var SCENE_DURATIONS = [10000, 6000, 6000];
