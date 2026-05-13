@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<title>Maja, 28 | DateMatch</title>
+<meta name="description" content="Maja, 28, søker en mann som tør å være direkte. Diskret møte i kveld.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Maja, 28 | DateMatch">
+<meta property="og:description" content="Maja, 28, søker en mann som tør å være direkte. Diskret møte i kveld.">
+<meta property="og:locale" content="nb_NO">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://ipapi.co">
+<link rel="dns-prefetch" href="https://ipapi.co">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap">
+
+<style>
+/* =========================================================
+   VARIANT B — single-profile, scene-by-scene reveal
+   Auto-advance med cross-fade på bilde og tekst, alltid synlig CTA.
+   Ingen carousel, ingen slide-mekanikk. Bruker bygger relasjon med
+   én person; CTA er konstant tilgjengelig.
+   ========================================================= */
+:root{
+  --coral:#E8A5A5;
+  --coral-deep:#D88C8C;
+  --coral-ink:#7A3F3F;
+  --beige:#F5EFE6;
+  --beige-soft:#FBF7F1;
+  --navy:#1A1F2E;
+  --navy-soft:#3A3F52;
+  --white:#FFFFFF;
+  --shadow:0 10px 30px rgba(26,31,46,.10),0 2px 6px rgba(26,31,46,.06);
+  --radius:18px;
+  --maxw:480px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --scene-fade:700ms;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--navy);
+  background:var(--beige);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  min-height:100dvh;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%;height:auto}
+:focus{outline:none}
+:focus-visible{outline:3px solid var(--coral-deep);outline-offset:3px;border-radius:6px}
+
+/* Age gate */
+.age-gate{
+  position:fixed;inset:0;
+  background:linear-gradient(160deg,#1A1F2E 0%,#2A2230 60%,#3A2A35 100%);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;z-index:100;
+}
+.age-gate[hidden]{display:none}
+.age-card{
+  width:100%;max-width:420px;
+  background:var(--beige-soft);
+  border-radius:24px;
+  padding:36px 28px 28px;
+  text-align:center;
+  box-shadow:0 30px 60px rgba(0,0,0,.35);
+}
+.age-badge{
+  display:inline-block;
+  font-family:'Fraunces',serif;
+  font-weight:700;
+  font-size:14px;letter-spacing:.18em;
+  color:var(--coral-ink);
+  background:var(--coral);
+  padding:6px 14px;border-radius:999px;
+  margin-bottom:18px;
+}
+.age-card h1{
+  font-family:'Fraunces',serif;
+  font-weight:600;
+  font-size:clamp(24px,5.5vw,30px);
+  line-height:1.2;
+  margin:0 0 10px;
+}
+.age-card p{margin:0 0 24px;color:var(--navy-soft);font-size:15px}
+.age-actions{display:flex;gap:10px;flex-direction:column}
+.btn{
+  font:inherit;cursor:pointer;border:none;border-radius:999px;
+  padding:16px 22px;font-weight:600;font-size:16px;
+  transition:transform .15s var(--ease),background .15s var(--ease),box-shadow .15s var(--ease),color .15s var(--ease);
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--coral);color:var(--navy);box-shadow:0 8px 22px rgba(216,140,140,.45)}
+.btn-primary:hover{background:var(--coral-deep);color:var(--white)}
+.btn-ghost{background:transparent;color:var(--navy-soft);border:1.5px solid rgba(26,31,46,.15)}
+.btn-ghost:hover{background:rgba(26,31,46,.05);color:var(--navy)}
+.age-small{margin-top:18px;font-size:12px;color:var(--navy-soft);opacity:.75}
+
+/* App layout */
+.app{
+  max-width:var(--maxw);
+  margin:0 auto;
+  padding:14px 16px 24px;
+  min-height:100dvh;min-height:100vh;
+  display:flex;flex-direction:column;
+}
+.app[aria-hidden="true"]{visibility:hidden}
+.brand{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:6px 0 14px;
+}
+.brand-mark{
+  width:28px;height:28px;border-radius:8px;
+  background:linear-gradient(135deg,var(--coral) 0%,var(--coral-deep) 100%);
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--white);font-family:'Fraunces',serif;font-weight:700;
+}
+.brand-name{font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--navy)}
+
+/* =========================================================
+   PROFILE CARD — single profile med scene-viewer
+   ========================================================= */
+.profile-card{
+  position:relative;
+  background:var(--white);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  flex:1;
+}
+.profile-media{
+  position:relative;
+  width:100%;
+  aspect-ratio:4 / 5;
+  max-height:60vh;
+  background:linear-gradient(135deg,#E8D5CB 0%,#D8B8B8 100%);
+  overflow:hidden;
+}
+.scene-img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity var(--scene-fade) ease;
+  will-change:opacity;
+}
+.scene-img.active{opacity:1}
+
+.badges{
+  position:absolute;top:14px;left:14px;right:14px;
+  display:flex;justify-content:space-between;gap:8px;
+  pointer-events:none;
+  z-index:3;
+}
+.tag{
+  font-size:12px;font-weight:600;
+  background:rgba(255,255,255,.92);
+  color:var(--navy);
+  padding:6px 10px;border-radius:999px;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+.tag.live{
+  background:var(--coral);
+  color:var(--navy);
+  display:inline-flex;align-items:center;gap:6px;
+}
+.tag.live::before{
+  content:"";width:7px;height:7px;border-radius:50%;
+  background:#2ECC71;
+  box-shadow:0 0 0 0 rgba(46,204,113,.7);
+  animation:pulse 1.6s infinite;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(46,204,113,.7)}
+  70%{box-shadow:0 0 0 8px rgba(46,204,113,0)}
+  100%{box-shadow:0 0 0 0 rgba(46,204,113,0)}
+}
+
+/* Tap-zones — Instagram-stories-stil for å gå manuelt frem/tilbake */
+.tap-zone{
+  position:absolute;top:0;bottom:0;
+  width:35%;
+  background:transparent;border:none;cursor:pointer;
+  z-index:2;
+  -webkit-tap-highlight-color:transparent;
+}
+.tap-prev{left:0}
+.tap-next{right:0}
+
+/* Progress-segmenter på toppen av bildet (auto-advance indikator) */
+.progress{
+  position:absolute;top:6px;left:8px;right:8px;
+  display:flex;gap:4px;
+  z-index:4;
+  pointer-events:none;
+}
+.seg{
+  flex:1;height:2.5px;
+  background:rgba(255,255,255,.32);
+  border-radius:2px;
+  overflow:hidden;
+}
+.seg i{
+  display:block;height:100%;
+  background:rgba(255,255,255,.96);
+  width:0;
+  transform-origin:left;
+}
+.seg.done i{width:100%}
+.seg.active i{animation:segFill var(--seg-dur,6s) linear forwards}
+.is-paused .seg.active i{animation-play-state:paused}
+@keyframes segFill{from{width:0}to{width:100%}}
+
+/* Body */
+.profile-body{
+  padding:22px 22px 24px;
+  display:flex;flex-direction:column;gap:14px;
+}
+.name-row{
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+}
+.profile-name{
+  font-family:'Fraunces',serif;font-weight:600;
+  font-size:26px;color:var(--navy);margin:0;
+  letter-spacing:-.01em;
+}
+.profile-meta{font-size:15px;color:var(--navy-soft)}
+
+.scene-text-wrap{
+  min-height:62px;
+  position:relative;
+}
+.scene-text{
+  margin:0;
+  font-size:16px;
+  color:var(--navy);
+  line-height:1.55;
+  position:absolute;inset:0;
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity var(--scene-fade) ease,transform var(--scene-fade) ease;
+  pointer-events:none;
+}
+.scene-text.active{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+/* Watcher-tall — "X menn ser på profilen akkurat nå" */
+.watchers{
+  font-size:13px;
+  color:var(--navy-soft);
+  display:flex;align-items:center;gap:6px;
+  letter-spacing:.01em;
+}
+.watchers .dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#2ECC71;
+  box-shadow:0 0 0 0 rgba(46,204,113,.7);
+  animation:pulse 1.6s infinite;
+  display:inline-block;
+}
+
+.cta-row{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.btn-cta{
+  display:block;text-align:center;text-decoration:none;
+  background:var(--coral);
+  color:var(--navy);
+  padding:18px 22px;
+  font-weight:700;font-size:17px;
+  border-radius:999px;
+  box-shadow:0 10px 26px rgba(216,140,140,.5);
+  letter-spacing:.005em;
+  animation:ctaPulse 2.6s ease-in-out infinite;
+}
+.btn-cta:hover{background:var(--coral-deep);color:var(--white)}
+@keyframes ctaPulse{
+  0%,100%{box-shadow:0 10px 26px rgba(216,140,140,.5),0 0 0 0 rgba(216,140,140,0)}
+  50%{box-shadow:0 12px 32px rgba(216,140,140,.65),0 0 0 10px rgba(216,140,140,.12)}
+}
+.cta-sub{
+  margin:0;text-align:center;
+  font-size:11.5px;color:var(--navy-soft);opacity:.75;letter-spacing:.02em;
+}
+
+.foot{
+  text-align:center;padding:14px 8px 6px;
+  font-size:12px;color:var(--navy-soft);opacity:.85;
+}
+.foot a{color:var(--navy-soft);text-decoration:underline;text-underline-offset:2px}
+.foot .sep{margin:0 8px;opacity:.5}
+
+@media (max-width:380px){
+  .app{padding:10px 12px 18px}
+  .profile-body{padding:18px}
+  .profile-media{max-height:54vh}
+  .scene-text-wrap{min-height:78px}
+}
+@media (prefers-reduced-motion:reduce){
+  .scene-img,.scene-text{transition:none}
+  .seg.active i{animation:none;width:100%}
+  .btn-cta,.tag.live::before,.watchers .dot{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- AGE GATE -->
+<div class="age-gate" id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageTitle" aria-describedby="ageDesc">
+  <div class="age-card">
+    <span class="age-badge">18+</span>
+    <h1 id="ageTitle">Er du over 18 år?</h1>
+    <p id="ageDesc">Denne siden inneholder innhold ment for voksne. Du må bekrefte alder for å fortsette.</p>
+    <div class="age-actions">
+      <button class="btn btn-primary" id="ageYes" type="button">Ja, jeg er over 18</button>
+      <button class="btn btn-ghost" id="ageNo" type="button">Nei, jeg er under 18</button>
+    </div>
+    <p class="age-small">Ved å fortsette godtar du våre <a href="/terms">vilkår</a> og <a href="/privacy">personvern</a>.</p>
+  </div>
+</div>
+
+<div class="app" id="app" aria-hidden="true">
+
+  <header class="brand" aria-label="DateMatch">
+    <span class="brand-mark" aria-hidden="true">D</span>
+    <span class="brand-name">DateMatch</span>
+  </header>
+
+  <!-- =========================================================
+       PROFILE — single person, narrativ avsløring
+       Bytt bilder: scene-1.svg/scene-2.svg/scene-3.svg.
+       Tekst i .scene-text-elementene (data-scene="0/1/2"-rekkefølge).
+       Profilnavn/alder oppdateres i .profile-name og .profile-meta.
+       ========================================================= -->
+  <section class="profile-card" id="profileCard" aria-label="Maja, 28">
+
+    <div class="profile-media" id="media">
+      <!-- AI-prompt forslag: "candid intimate portrait of a 28-year-old
+           scandinavian woman, soft natural light, warm coral tones, looking
+           at camera with subtle smile, intimate but tasteful, 4:5 portrait,
+           photorealistic, --ar 4:5 --style raw" -->
+      <img class="scene-img active" data-scene="0" src="scene-1.svg" alt="Maja" width="400" height="500" fetchpriority="high">
+      <img class="scene-img" data-scene="1" src="scene-2.svg" alt="Maja" width="400" height="500" loading="lazy">
+      <img class="scene-img" data-scene="2" src="scene-3.svg" alt="Maja" width="400" height="500" loading="lazy">
+
+      <div class="progress" aria-hidden="true">
+        <div class="seg" data-seg="0"><i></i></div>
+        <div class="seg" data-seg="1"><i></i></div>
+        <div class="seg" data-seg="2"><i></i></div>
+      </div>
+
+      <div class="badges">
+        <span class="tag live">Online nå</span>
+        <span class="tag">28 · <span data-city>Oslo</span></span>
+      </div>
+
+      <button class="tap-zone tap-prev" type="button" data-tap="prev" aria-label="Forrige scene"></button>
+      <button class="tap-zone tap-next" type="button" data-tap="next" aria-label="Neste scene"></button>
+    </div>
+
+    <div class="profile-body">
+      <div class="name-row">
+        <h2 class="profile-name">Maja</h2>
+        <span class="profile-meta">28 · <span data-city>Oslo</span></span>
+      </div>
+
+      <!-- Scene-tekster — rediger her for å endre fortellingen.
+           Hver scene vises ~6 sekunder før neste fades inn. -->
+      <div class="scene-text-wrap">
+        <p class="scene-text active" data-scene="0">Hei. Jeg heter Maja. Bor og jobber <span data-in-place>i Oslo</span>.</p>
+        <p class="scene-text" data-scene="1">Jobber sent — har lite tid til å gå ut. Søker en mann som tør å være direkte.</p>
+        <p class="scene-text" data-scene="2">Hvis du fortsatt leser, er jeg interessert. Skriv noe pent, så svarer jeg i kveld.</p>
+      </div>
+
+      <div class="watchers" aria-live="polite">
+        <span class="dot" aria-hidden="true"></span>
+        <span><span id="watchers">9</span> menn ser på profilen nå</span>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn btn-cta" id="primaryCta" data-cta href="#" rel="noopener nofollow sponsored">
+          Skriv til Maja →
+        </a>
+        <p class="cta-sub">Gratis å bli med · Diskret · 18+</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div>
+      <strong>18+</strong>
+      <span class="sep">·</span>
+      <a href="/privacy">Personvern</a>
+      <span class="sep">·</span>
+      <a href="/terms">Vilkår</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  // =========================================================
+  // KONFIGURASJON
+  // ---------------------------------------------------------
+  // REDIRECT_URL: affiliate-lenke fra merchant. Sub-id/click-id legges
+  // til via {CITY}-token (URL-encoded stedsnavn).
+  // SCENE_DURATION: ms per scene før auto-advance.
+  // SITE_NAME: vises i <title>.
+  // =========================================================
+  var REDIRECT_URL    = 'https://example.com/signup?aff=AFFID&sub={CITY}&v=b';
+  var SCENE_DURATION  = 6000;
+  var SITE_NAME       = 'DateMatch';
+  var FALLBACK_PLACE  = 'Oslo';
+  var FALLBACK_INPHRASE = 'i nærheten';
+
+  // =========================================================
+  // STATE
+  // =========================================================
+  var images   = Array.prototype.slice.call(document.querySelectorAll('.scene-img'));
+  var texts    = Array.prototype.slice.call(document.querySelectorAll('.scene-text'));
+  var segs     = Array.prototype.slice.call(document.querySelectorAll('.seg'));
+  var tapPrev  = document.querySelector('[data-tap="prev"]');
+  var tapNext  = document.querySelector('[data-tap="next"]');
+  var primaryCta = document.getElementById('primaryCta');
+  var ctas     = Array.prototype.slice.call(document.querySelectorAll('[data-cta]'));
+  var ageGate  = document.getElementById('ageGate');
+  var ageYes   = document.getElementById('ageYes');
+  var ageNo    = document.getElementById('ageNo');
+  var app      = document.getElementById('app');
+  var watchersEl = document.getElementById('watchers');
+
+  var totalScenes = images.length;
+  var currentScene = 0;
+  var sceneTimer = null;
+  var paused = false;
+
+  // CSS-variabel for animasjonsvarighet
+  document.documentElement.style.setProperty('--seg-dur', SCENE_DURATION + 'ms');
+
+  // =========================================================
+  // AGE GATE
+  // =========================================================
+  function unlockApp(){
+    ageGate.hidden = true;
+    app.setAttribute('aria-hidden','false');
+    if (primaryCta) primaryCta.focus({preventScroll:true});
+    startScene(0);
+  }
+  function ageVerified(){
+    try { return localStorage.getItem('ageVerified') === 'true'; } catch(e){ return false; }
+  }
+  function setAgeVerified(){
+    try { localStorage.setItem('ageVerified','true'); } catch(e){}
+  }
+
+  if (ageVerified()) unlockApp();
+  else { setTimeout(function(){ ageYes && ageYes.focus({preventScroll:true}); }, 30); }
+
+  ageYes.addEventListener('click', function(){ setAgeVerified(); unlockApp(); });
+  ageNo.addEventListener('click', function(){ window.location.replace('https://www.google.com'); });
+
+  // =========================================================
+  // SCENE VIEWER — auto-advance med cross-fade
+  // =========================================================
+  function applyScene(idx){
+    images.forEach(function(img, i){
+      img.classList.toggle('active', i === idx);
+    });
+    texts.forEach(function(t, i){
+      t.classList.toggle('active', i === idx);
+    });
+    segs.forEach(function(seg, i){
+      seg.classList.remove('active','done');
+      if (i < idx) seg.classList.add('done');
+      if (i === idx) seg.classList.add('active');
+    });
+  }
+
+  function startScene(idx){
+    if (idx >= totalScenes) idx = totalScenes - 1;
+    if (idx < 0) idx = 0;
+    currentScene = idx;
+    applyScene(idx);
+    clearTimeout(sceneTimer);
+    if (idx < totalScenes - 1 && !paused){
+      sceneTimer = setTimeout(function(){ startScene(idx + 1); }, SCENE_DURATION);
+    }
+  }
+
+  function next(){ if (currentScene < totalScenes - 1) startScene(currentScene + 1); }
+  function prev(){ if (currentScene > 0) startScene(currentScene - 1); }
+
+  if (tapPrev) tapPrev.addEventListener('click', prev);
+  if (tapNext) tapNext.addEventListener('click', next);
+
+  document.addEventListener('keydown', function(e){
+    if (!ageGate.hidden) return;
+    if (e.key === 'ArrowRight'){ e.preventDefault(); next(); }
+    else if (e.key === 'ArrowLeft'){ e.preventDefault(); prev(); }
+  });
+
+  // Pause auto-advance når brukeren holder fingeren på bildet (Stories-konvensjon)
+  var holdTimer = null;
+  function startHold(){
+    holdTimer = setTimeout(function(){
+      paused = true;
+      document.body.classList.add('is-paused');
+      clearTimeout(sceneTimer);
+    }, 220);
+  }
+  function endHold(){
+    clearTimeout(holdTimer);
+    if (paused){
+      paused = false;
+      document.body.classList.remove('is-paused');
+      // Restart timer for current scene (forenklet — ikke resume fra exact tid)
+      startScene(currentScene);
+    }
+  }
+  var media = document.getElementById('media');
+  media.addEventListener('pointerdown', startHold);
+  media.addEventListener('pointerup', endHold);
+  media.addEventListener('pointercancel', endHold);
+  media.addEventListener('pointerleave', endHold);
+
+  // =========================================================
+  // GEO — same flernivå-deteksjon som variant A
+  //   URL-param > ipapi city > ipapi region > fallback
+  // =========================================================
+  function readUrlGeo(){
+    try {
+      var p = new URLSearchParams(window.location.search);
+      var v = p.get('city') || p.get('by') || p.get('fylke') || p.get('region');
+      if (v) return v.trim().slice(0, 60);
+    } catch(e){}
+    return null;
+  }
+  function resolveGeo(urlPlace, city, region){
+    if (urlPlace) return { place:urlPlace, inPhrase:'i ' + urlPlace, level:'url' };
+    if (city)     return { place:city,     inPhrase:'i ' + city,     level:'city' };
+    if (region)   return { place:region,   inPhrase:'i ' + region,   level:'region' };
+    return { place:FALLBACK_PLACE, inPhrase:FALLBACK_INPHRASE, level:'fallback' };
+  }
+  function applyGeo(g){
+    document.querySelectorAll('[data-city]').forEach(function(el){ el.textContent = g.place; });
+    document.querySelectorAll('[data-in-place]').forEach(function(el){ el.textContent = g.inPhrase; });
+    document.querySelectorAll('.scene-img').forEach(function(img){
+      var alt = img.getAttribute('alt') || '';
+      if (alt === 'Maja') img.setAttribute('alt', 'Maja, ' + g.place);
+    });
+    var titlePlace = g.level === 'fallback' ? FALLBACK_PLACE : g.place;
+    document.title = 'Maja, 28 ' + g.inPhrase + ' | ' + SITE_NAME;
+    var meta = function(sel, val){ var m = document.querySelector(sel); if (m) m.setAttribute('content', val); };
+    meta('meta[name="description"]', 'Maja, 28, ' + g.inPhrase + ' — søker en mann som tør å være direkte. Diskret møte i kveld.');
+    meta('meta[property="og:title"]', 'Maja, 28 ' + g.inPhrase + ' | ' + SITE_NAME);
+
+    var href = REDIRECT_URL
+      .replace('{CITY}', encodeURIComponent(g.place))
+      .replace('{LEVEL}', encodeURIComponent(g.level));
+    ctas.forEach(function(a){ a.setAttribute('href', href); });
+
+    startWatchers(g);
+  }
+  function loadGeo(){
+    var urlPlace = readUrlGeo();
+    if (urlPlace){ applyGeo(resolveGeo(urlPlace, null, null)); return; }
+    var cached;
+    try { cached = sessionStorage.getItem('geoState'); } catch(e){}
+    if (cached){
+      try { applyGeo(JSON.parse(cached)); return; } catch(e){}
+    }
+    applyGeo(resolveGeo(null, null, null));
+    fetch('https://ipapi.co/json/', {credentials:'omit'})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(data){
+        if (!data) return;
+        var g = resolveGeo(null, data.city, data.region);
+        try { sessionStorage.setItem('geoState', JSON.stringify(g)); } catch(e){}
+        applyGeo(g);
+      })
+      .catch(function(){});
+  }
+  loadGeo();
+
+  // =========================================================
+  // WATCHERS COUNTER — "X menn ser på profilen akkurat nå"
+  // Lave realistiske tall for én enkelt profil: storby 8-22,
+  // småby 2-9, fylke 4-12, fallback 5-15. ±1 per tick, smooth drift.
+  // =========================================================
+  var BIG_CITIES = ['Oslo','Bergen','Trondheim','Stavanger','Drammen','Tromsø','Kristiansand','Fredrikstad','Sandnes','Sarpsborg','Skien','Bodø','Ålesund','Tønsberg','Moss','Haugesund','Sandefjord','Arendal'];
+  var watcherTimer = null;
+
+  function watcherBase(g){
+    var rand = function(a,b){ return a + Math.floor(Math.random() * (b - a + 1)); };
+    if (g.level === 'fallback') return rand(5, 14);
+    if (g.level === 'region')   return rand(4, 11);
+    if (BIG_CITIES.indexOf(g.place) !== -1) return rand(9, 21);
+    return rand(2, 8);
+  }
+
+  function startWatchers(geo){
+    if (!watchersEl) return;
+    if (watcherTimer){ clearTimeout(watcherTimer); watcherTimer = null; }
+    var base = watcherBase(geo);
+    var min  = Math.max(2, base - 3);
+    var max  = base + 3;
+    var cur  = parseInt(watchersEl.textContent, 10);
+    if (isNaN(cur) || cur < 1) cur = base;
+    watchersEl.textContent = cur;
+    function tick(){
+      if (cur > max){ cur -= 1; }
+      else if (cur < min){ cur += 1; }
+      else { cur += Math.random() < 0.5 ? -1 : 1; }
+      if (cur < 2) cur = 2;
+      watchersEl.textContent = cur;
+      watcherTimer = setTimeout(tick, 3000 + Math.random() * 2200);
+    }
+    watcherTimer = setTimeout(tick, 3000 + Math.random() * 2200);
+  }
+})();
+</script>
+</body>
+</html>

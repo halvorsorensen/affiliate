@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder portrett: mirror selfie">
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FCD7CC"/>
+      <stop offset="55%" stop-color="#E89A9A"/>
+      <stop offset="100%" stop-color="#A85B5B"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="34%" cy="28%" r="62%">
+      <stop offset="0%" stop-color="#FFF1EB" stop-opacity=".7"/>
+      <stop offset="100%" stop-color="#FFF1EB" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur1"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+
+  <rect width="400" height="500" fill="url(#bg1)"/>
+  <rect width="400" height="500" fill="url(#glow1)"/>
+
+  <!-- Silhouette (myk, abstrakt mirror-selfie-pose) -->
+  <g fill="#2A141C" opacity=".55" filter="url(#blur1)">
+    <!-- Hår faller bak skulder -->
+    <path d="M132 220 C108 250, 96 320, 112 380 L138 380 C130 340, 138 300, 152 280 Z"/>
+    <!-- Hode og hår topp -->
+    <path d="M200 102 C148 102, 130 148, 130 204 L132 250 C140 270, 156 282, 168 290 L172 320 C172 344, 190 358, 200 358 C210 358, 228 344, 228 320 L232 290 C244 282, 260 270, 268 250 L270 204 C270 148, 252 102, 200 102 Z"/>
+    <!-- Skuldre/torso -->
+    <path d="M70 500 L70 420 C70 372, 108 348, 200 348 C292 348, 330 372, 330 420 L330 500 Z"/>
+    <!-- Arm med telefon hevet -->
+    <path d="M232 348 L262 326 L286 296 L298 280 L286 268 L268 274 L246 304 L222 332 Z"/>
+  </g>
+
+  <!-- Telefonen (mirror-selfie-gesten) -->
+  <g>
+    <rect x="276" y="248" width="42" height="62" rx="7" fill="#1A1F2E"/>
+    <rect x="280" y="252" width="34" height="52" rx="4" fill="#3A3F52"/>
+    <circle cx="297" cy="262" r="2.5" fill="#FFE7DF" opacity=".9"/>
+    <rect x="284" y="270" width="22" height="2" rx="1" fill="#FFE7DF" opacity=".45"/>
+    <rect x="284" y="278" width="14" height="2" rx="1" fill="#FFE7DF" opacity=".3"/>
+  </g>
+
+  <!-- Hjerteaksent øverst høyre -->
+  <path d="M330 86 C336 78, 350 80, 350 92 C350 104, 330 118, 330 118 C330 118, 310 104, 310 92 C310 80, 324 78, 330 86 Z" fill="#FFE7DF" opacity=".75"/>
+
+  <!-- Innramming -->
+  <rect x="8" y="8" width="384" height="484" rx="14" fill="none" stroke="#FFF1EB" stroke-opacity=".22"/>
+
+  <!-- Plassholder-label -->
+  <text x="200" y="468" text-anchor="middle" font-family="Georgia, serif" font-size="12" font-style="italic" fill="#FFF1EB" opacity=".75">photo placeholder</text>
+</svg>
