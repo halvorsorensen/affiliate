@@ -144,7 +144,9 @@ img{display:block;max-width:100%;height:auto}
 .profile-media{
   position:relative;
   width:100%;
-  aspect-ratio:4 / 5;
+  /* 1:1 (kvadrat) gir mer plass til at kvadratiske foto vises uten å
+     kroppe sidene mye. Endre til 4/5 for ren portrettramme. */
+  aspect-ratio:1 / 1;
   max-height:60vh;
   background:linear-gradient(135deg,#E8D5CB 0%,#D8B8B8 100%);
   overflow:hidden;
@@ -355,7 +357,7 @@ img{display:block;max-width:100%;height:auto}
 @media (max-width:380px){
   .app{padding:10px 12px 18px}
   .profile-body{padding:18px}
-  .profile-media{max-height:54vh}
+  .profile-media{max-height:50vh}
   .scene-text-wrap{min-height:78px}
 }
 @media (prefers-reduced-motion:reduce){
@@ -493,7 +495,9 @@ img{display:block;max-width:100%;height:auto}
   // SITE_NAME: vises i <title>.
   // =========================================================
   var REDIRECT_URL    = 'https://example.com/signup?aff=AFFID&sub={CITY}&v=b';
-  var SCENE_DURATION  = 6000;
+  // Per-scene varighet i ms — første slide (video) får lenger tid for å la
+  // brukeren faktisk se motivet før den skifter.
+  var SCENE_DURATIONS = [10000, 6000, 6000];
   var FALLBACK_PLACE  = 'Norge';
   var FALLBACK_INPHRASE = 'i nærheten';
 
@@ -519,8 +523,10 @@ img{display:block;max-width:100%;height:auto}
   var sceneTimer = null;
   var paused = false;
 
-  // CSS-variabel for animasjonsvarighet
-  document.documentElement.style.setProperty('--seg-dur', SCENE_DURATION + 'ms');
+  // Sett progress-segmentene sine fyll-varigheter til å matche per-scene-tid
+  segs.forEach(function(seg, i){
+    seg.style.setProperty('--seg-dur', (SCENE_DURATIONS[i] || 6000) + 'ms');
+  });
 
   // =========================================================
   // AGE GATE
@@ -576,7 +582,7 @@ img{display:block;max-width:100%;height:auto}
     applyScene(idx);
     clearTimeout(sceneTimer);
     if (idx < totalScenes - 1 && !paused){
-      sceneTimer = setTimeout(function(){ startScene(idx + 1); }, SCENE_DURATION);
+      sceneTimer = setTimeout(function(){ startScene(idx + 1); }, SCENE_DURATIONS[idx] || 6000);
     }
   }
 
