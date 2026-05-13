@@ -6,11 +6,11 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer-when-downgrade">
 
-<title>Stine, 20 | DateMatch</title>
+<title>Stine, 20</title>
 <meta name="description" content="Stine, 20, søker sex i kveld. Diskret, ingen forpliktelser.">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Stine, 20 | DateMatch">
+<meta property="og:title" content="Stine, 20">
 <meta property="og:description" content="Stine, 20, søker sex i kveld. Diskret, ingen forpliktelser.">
 <meta property="og:locale" content="nb_NO">
 <meta name="twitter:card" content="summary_large_image">
@@ -494,7 +494,6 @@ img{display:block;max-width:100%;height:auto}
   // =========================================================
   var REDIRECT_URL    = 'https://example.com/signup?aff=AFFID&sub={CITY}&v=b';
   var SCENE_DURATION  = 6000;
-  var SITE_NAME       = 'DateMatch';
   var FALLBACK_PLACE  = 'Norge';
   var FALLBACK_INPHRASE = 'i nærheten';
 
@@ -654,11 +653,10 @@ img{display:block;max-width:100%;height:auto}
       var alt = img.getAttribute('alt') || '';
       if (alt === 'Stine') img.setAttribute('alt', 'Stine, ' + g.place);
     });
-    var titlePlace = g.level === 'fallback' ? FALLBACK_PLACE : g.place;
-    document.title = 'Stine, 20 ' + g.inPhrase + ' | ' + SITE_NAME;
+    document.title = 'Stine, 20 ' + g.inPhrase;
     var meta = function(sel, val){ var m = document.querySelector(sel); if (m) m.setAttribute('content', val); };
     meta('meta[name="description"]', 'Stine, 20, ' + g.inPhrase + '. Søker sex i kveld, diskret og ingen forpliktelser.');
-    meta('meta[property="og:title"]', 'Stine, 20 ' + g.inPhrase + ' | ' + SITE_NAME);
+    meta('meta[property="og:title"]', 'Stine, 20 ' + g.inPhrase);
 
     var href = REDIRECT_URL
       .replace('{CITY}', encodeURIComponent(g.place))
