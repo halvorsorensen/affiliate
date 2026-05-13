@@ -441,10 +441,11 @@ img{display:block;max-width:100%;height:auto}
   // SCENE_DURATION: ms per scene før auto-advance.
   // SITE_NAME: vises i <title>.
   // =========================================================
-  // Affiliate-lenke fra merchant. {CITY} byttes til detektert sted,
-  // {LEVEL} til geo-presisjonen (url/city/region/fallback). {Pushkampanje}
-  // er en merchant-side macro som annonsenettverket eller du selv fyller inn.
-  var REDIRECT_URL    = 'https://meet-n-hook.com/#/adv/ING176?source={Pushkampanje}&city={CITY}&v=b';
+  // Affiliate-lenke fra merchant. {Pushkampanje} er en macro som
+  // annonsenettverket (eller du manuelt) fyller inn med kampanjenavn.
+  // Hvis du vil legge til geo som tracking, kan {CITY} og {LEVEL} brukes —
+  // de blir erstattet av JS med detektert sted/presisjon før redirect.
+  var REDIRECT_URL    = 'https://meet-n-hook.com/#/adv/ING176?source={Pushkampanje}';
   // Per-scene varighet i ms — første slide (video) får lenger tid for å la
   // brukeren faktisk se motivet før den skifter.
   var SCENE_DURATIONS = [10000, 6000, 6000];
