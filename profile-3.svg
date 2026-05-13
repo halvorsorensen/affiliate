@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder portrett: nærportrett">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3A2230"/>
+      <stop offset="55%" stop-color="#A24F5A"/>
+      <stop offset="100%" stop-color="#E8A5A5"/>
+    </linearGradient>
+    <radialGradient id="glow3" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#FFE3D4" stop-opacity=".5"/>
+      <stop offset="100%" stop-color="#FFE3D4" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur3"><feGaussianBlur stdDeviation="3.4"/></filter>
+  </defs>
+
+  <rect width="400" height="500" fill="url(#bg3)"/>
+  <rect width="400" height="500" fill="url(#glow3)"/>
+
+  <!-- Silhouette: hode litt vippet bakover, langt hår -->
+  <g fill="#180812" opacity=".55" filter="url(#blur3)">
+    <!-- Hår faller bak skuldre, lange linjer -->
+    <path d="M118 240 C90 290, 88 380, 110 460 L160 460 C150 400, 156 340, 172 300 Z"/>
+    <path d="M282 240 C310 290, 312 380, 290 460 L240 460 C250 400, 244 340, 228 300 Z"/>
+    <!-- Hode (vippet litt bakover) -->
+    <path d="M200 92 C148 92, 130 138, 132 194 L138 248 C150 270, 168 282, 180 290 L184 320 C184 344, 202 356, 214 354 C232 350, 244 332, 244 312 L246 290 C260 282, 274 268, 280 246 L278 198 C278 144, 252 92, 200 92 Z"/>
+    <!-- Skuldre, antydet bar overdel -->
+    <path d="M60 500 L60 420 C60 374, 96 348, 200 348 C304 348, 340 374, 340 420 L340 500 Z"/>
+    <!-- Halslinje -->
+    <path d="M178 348 C188 360, 212 360, 222 348 L222 332 L178 332 Z"/>
+  </g>
+
+  <!-- Leppe-aksent (subtilt rød kyssmerke) -->
+  <g opacity=".55">
+    <path d="M68 388 C76 384, 84 384, 92 388 C96 396, 90 408, 80 408 C70 408, 64 396, 68 388 Z" fill="#E8A5A5"/>
+    <path d="M82 392 C86 390, 92 390, 96 392 C98 396, 94 402, 88 402 Z" fill="#A24F5A"/>
+  </g>
+
+  <!-- Sparkle nær panne -->
+  <g fill="#FFE3D4" opacity=".75">
+    <path d="M308 130 L312 142 L324 146 L312 150 L308 162 L304 150 L292 146 L304 142 Z"/>
+    <circle cx="296" cy="172" r="1.6"/>
+  </g>
+
+  <!-- Innramming -->
+  <rect x="8" y="8" width="384" height="484" rx="14" fill="none" stroke="#FFE3D4" stroke-opacity=".2"/>
+
+  <text x="200" y="470" text-anchor="middle" font-family="Georgia, serif" font-size="12" font-style="italic" fill="#FFE3D4" opacity=".75">photo placeholder</text>
+</svg>
