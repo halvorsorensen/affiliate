@@ -192,7 +192,9 @@ img{display:block;max-width:100%;height:auto}
   100%{box-shadow:0 0 0 0 rgba(46,204,113,0)}
 }
 
-/* Tap-zones — Instagram-stories-stil for å gå manuelt frem/tilbake */
+/* Tap-zones — store usynlige soner for å gå manuelt frem/tilbake
+   på mobil (Instagram-stories-konvensjon). Pilene over fungerer
+   som synlig affordance. */
 .tap-zone{
   position:absolute;top:0;bottom:0;
   width:35%;
@@ -202,6 +204,33 @@ img{display:block;max-width:100%;height:auto}
 }
 .tap-prev{left:0}
 .tap-next{right:0}
+
+/* Synlige navigasjonsstegler — vises både på desktop og mobil siden
+   variant B ikke har swipe-gesture. */
+.nav-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:42px;height:42px;
+  border-radius:50%;
+  background:rgba(255,255,255,.92);
+  color:var(--navy);
+  border:1px solid rgba(26,31,46,.08);
+  font-size:22px;font-weight:600;
+  line-height:1;
+  cursor:pointer;
+  z-index:10;
+  display:inline-flex;
+  align-items:center;justify-content:center;
+  box-shadow:0 6px 18px rgba(26,31,46,.22);
+  transition:opacity .18s,background .18s,transform .18s;
+  -webkit-tap-highlight-color:transparent;
+  padding-bottom:3px;
+}
+.nav-arrow.nav-prev{left:10px}
+.nav-arrow.nav-next{right:10px}
+.nav-arrow:hover{background:#fff;transform:translateY(-50%) scale(1.06)}
+.nav-arrow:disabled{opacity:.25;cursor:default;pointer-events:none}
 
 /* Progress-segmenter på toppen av bildet (auto-advance indikator) */
 .progress{
@@ -373,6 +402,9 @@ img{display:block;max-width:100%;height:auto}
 
       <button class="tap-zone tap-prev" type="button" data-tap="prev" aria-label="Forrige scene"></button>
       <button class="tap-zone tap-next" type="button" data-tap="next" aria-label="Neste scene"></button>
+
+      <button class="nav-arrow nav-prev" type="button" data-nav="prev" aria-label="Forrige scene">‹</button>
+      <button class="nav-arrow nav-next" type="button" data-nav="next" aria-label="Neste scene">›</button>
     </div>
 
     <div class="profile-body">
@@ -440,6 +472,8 @@ img{display:block;max-width:100%;height:auto}
   var segs     = Array.prototype.slice.call(document.querySelectorAll('.seg'));
   var tapPrev  = document.querySelector('[data-tap="prev"]');
   var tapNext  = document.querySelector('[data-tap="next"]');
+  var navPrev  = document.querySelector('[data-nav="prev"]');
+  var navNext  = document.querySelector('[data-nav="next"]');
   var primaryCta = document.getElementById('primaryCta');
   var ctas     = Array.prototype.slice.call(document.querySelectorAll('[data-cta]'));
   var ageGate  = document.getElementById('ageGate');
@@ -493,6 +527,8 @@ img{display:block;max-width:100%;height:auto}
       if (i < idx) seg.classList.add('done');
       if (i === idx) seg.classList.add('active');
     });
+    if (navPrev) navPrev.disabled = idx === 0;
+    if (navNext) navNext.disabled = idx === totalScenes - 1;
   }
 
   function startScene(idx){
@@ -511,6 +547,8 @@ img{display:block;max-width:100%;height:auto}
 
   if (tapPrev) tapPrev.addEventListener('click', prev);
   if (tapNext) tapNext.addEventListener('click', next);
+  if (navPrev) navPrev.addEventListener('click', prev);
+  if (navNext) navNext.addEventListener('click', next);
 
   document.addEventListener('keydown', function(e){
     if (!ageGate.hidden) return;
