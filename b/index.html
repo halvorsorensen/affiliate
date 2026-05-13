@@ -410,13 +410,13 @@ img{display:block;max-width:100%;height:auto}
   <section class="profile-card" id="profileCard" aria-label="Stine, 20">
 
     <div class="profile-media" id="media">
-      <!-- AI-prompt forslag (Nano Banana / Midjourney): "candid intimate
-           portrait of a 20-year-old scandinavian woman, soft natural light,
-           warm coral tones, looking at camera with subtle smile, intimate
-           but tasteful, photorealistic, portrait 4:5" -->
-      <img class="scene-img active" data-scene="0" src="scene-1.svg" alt="Stine" width="400" height="500" fetchpriority="high">
-      <img class="scene-img" data-scene="1" src="scene-2.svg" alt="Stine" width="400" height="500" loading="lazy">
-      <img class="scene-img" data-scene="2" src="scene-3.svg" alt="Stine" width="400" height="500" loading="lazy">
+      <!-- Slide 1 er video — auto-loop, muted, playsinline for å starte
+           på iOS uten brukerhandling. -->
+      <video class="scene-img active" data-scene="0" autoplay muted loop playsinline preload="auto" width="400" height="500" aria-label="Stine">
+        <source src="1778696195526-805ihnrq9iv.mp4" type="video/mp4">
+      </video>
+      <img class="scene-img" data-scene="1" src="photo_2026-05-13_20-13-17.jpg" alt="Stine" width="400" height="500" loading="lazy" decoding="async">
+      <img class="scene-img" data-scene="2" src="photo_2026-05-13_19-54-30.jpg" alt="Stine" width="400" height="500" loading="lazy" decoding="async">
 
       <div class="progress" aria-hidden="true">
         <div class="seg" data-seg="0"><i></i></div>
@@ -649,9 +649,10 @@ img{display:block;max-width:100%;height:auto}
   function applyGeo(g){
     document.querySelectorAll('[data-city]').forEach(function(el){ el.textContent = g.place; });
     document.querySelectorAll('[data-in-place]').forEach(function(el){ el.textContent = g.inPhrase; });
-    document.querySelectorAll('.scene-img').forEach(function(img){
-      var alt = img.getAttribute('alt') || '';
-      if (alt === 'Stine') img.setAttribute('alt', 'Stine, ' + g.place);
+    document.querySelectorAll('.scene-img').forEach(function(el){
+      var attr = el.tagName === 'VIDEO' ? 'aria-label' : 'alt';
+      var cur = el.getAttribute(attr) || '';
+      if (cur === 'Stine') el.setAttribute(attr, 'Stine, ' + g.place);
     });
     document.title = 'Stine, 20 ' + g.inPhrase;
     var meta = function(sel, val){ var m = document.querySelector(sel); if (m) m.setAttribute('content', val); };
