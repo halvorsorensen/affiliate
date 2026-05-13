@@ -120,16 +120,14 @@ img{display:block;max-width:100%;height:auto}
 }
 .app[aria-hidden="true"]{visibility:hidden}
 .brand{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  padding:6px 0 14px;
+  display:flex;align-items:center;justify-content:center;
+  padding:10px 0 14px;
 }
-.brand-mark{
-  width:28px;height:28px;border-radius:8px;
-  background:linear-gradient(135deg,var(--coral) 0%,var(--coral-deep) 100%);
-  display:inline-flex;align-items:center;justify-content:center;
-  color:var(--white);font-family:'Fraunces',serif;font-weight:700;
+.brand-heart{
+  width:36px;height:36px;
+  display:block;
+  filter:drop-shadow(0 4px 10px rgba(184,90,90,.28));
 }
-.brand-name{font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--navy)}
 
 /* =========================================================
    PROFILE CARD — single profile med scene-viewer
@@ -385,9 +383,22 @@ img{display:block;max-width:100%;height:auto}
 
 <div class="app" id="app" aria-hidden="true">
 
-  <header class="brand" aria-label="DateMatch">
-    <span class="brand-mark" aria-hidden="true">D</span>
-    <span class="brand-name">DateMatch</span>
+  <header class="brand">
+    <svg class="brand-heart" viewBox="0 0 32 32" aria-hidden="true">
+      <defs>
+        <linearGradient id="bh-fill" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#F2BFB7"/>
+          <stop offset="50%" stop-color="#E08A8A"/>
+          <stop offset="100%" stop-color="#B36363"/>
+        </linearGradient>
+        <radialGradient id="bh-shine" cx="32%" cy="26%" r="36%">
+          <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".6"/>
+          <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <path d="M16 28C16 28 4 20 4 11.5C4 7.6 7 5 10.5 5C13.1 5 15 6.3 16 8C17 6.3 18.9 5 21.5 5C25 5 28 7.6 28 11.5C28 20 16 28 16 28Z" fill="url(#bh-fill)"/>
+      <path d="M16 28C16 28 4 20 4 11.5C4 7.6 7 5 10.5 5C13.1 5 15 6.3 16 8C17 6.3 18.9 5 21.5 5C25 5 28 7.6 28 11.5C28 20 16 28 16 28Z" fill="url(#bh-shine)"/>
+    </svg>
   </header>
 
   <!-- =========================================================
