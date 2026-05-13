@@ -224,7 +224,63 @@ img{display:block;max-width:100%;height:auto}
   z-index:1;
 }
 .slide.is-dragging{transition:none}
+.slide.no-anim{transition:none}
 .track.no-anim .slide{transition:none}
+
+/* Subtil "wiggle" som vises én gang etter age-gate på touch-enheter
+   for å hinte om at kortene kan swipes. */
+@keyframes hintWiggle{
+  0%,100%{transform:translateX(0) scale(1) rotate(0deg)}
+  18%{transform:translateX(-22px) scale(1) rotate(-2.5deg)}
+  42%{transform:translateX(14px) scale(1) rotate(1.6deg)}
+  62%{transform:translateX(-6px) scale(1) rotate(-.6deg)}
+}
+.slide[data-pos="active"].hint-wiggle{
+  animation:hintWiggle 1.4s ease-in-out;
+}
+
+/* Desktop nav-piler (kun synlig på enheter med peker/mus) */
+.nav-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:44px;height:44px;
+  border-radius:50%;
+  background:rgba(255,255,255,.88);
+  color:var(--navy);
+  border:1px solid rgba(26,31,46,.08);
+  font-size:18px;font-weight:600;
+  cursor:pointer;
+  z-index:20;
+  display:none;
+  align-items:center;justify-content:center;
+  box-shadow:0 6px 18px rgba(26,31,46,.18);
+  transition:opacity .18s,background .18s,transform .18s;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-arrow.nav-prev{left:-6px}
+.nav-arrow.nav-next{right:-6px}
+.nav-arrow:hover{background:#fff;transform:translateY(-50%) scale(1.06)}
+.nav-arrow:disabled{opacity:.3;cursor:default;pointer-events:none}
+@media (hover:hover) and (pointer:fine){
+  .nav-arrow{display:inline-flex}
+}
+
+/* Mobil swipe-hint (kort tekst som fader inn/ut én gang) */
+.swipe-hint{
+  text-align:center;
+  font-size:12px;
+  color:var(--navy-soft);
+  opacity:0;
+  margin:4px 0 -4px;
+  letter-spacing:.04em;
+  pointer-events:none;
+  transition:opacity .4s ease;
+}
+.swipe-hint.show{opacity:.65}
+@media (hover:hover) and (pointer:fine){
+  .swipe-hint{display:none}
+}
 .card{
   background:var(--white);
   border-radius:var(--radius);
@@ -517,6 +573,8 @@ img{display:block;max-width:100%;height:auto}
 
   <!-- Carousel -->
   <section class="carousel" id="carousel" aria-roledescription="carousel" aria-label="Profiler">
+    <button class="nav-arrow nav-prev" type="button" data-arrow="prev" aria-label="Forrige profil">‹</button>
+    <button class="nav-arrow nav-next" type="button" data-arrow="next" aria-label="Neste profil">›</button>
     <div class="track" id="track" role="list">
 
       <!-- =========================================================
@@ -544,7 +602,7 @@ img{display:block;max-width:100%;height:auto}
               <span class="profile-name">Emma</span>
               <span class="profile-meta">27 · <span data-city>Norge</span></span>
             </div>
-            <p class="blurb"><span class="dot-live" aria-hidden="true"></span> Skriver til 3 menn nå — kom før køen</p>
+            <p class="blurb"><span class="dot-live" aria-hidden="true"></span> Skriver til 3 nå — kom før køen 🔥</p>
             <div class="cta-row">
               <a class="btn btn-cta" data-cta href="#" rel="noopener nofollow sponsored" aria-label="Skriv til Emma">
                 Skriv til Emma 💬
@@ -575,12 +633,12 @@ img{display:block;max-width:100%;height:auto}
             <span class="swipe-tag pass-tag" aria-hidden="true">NESTE</span>
           </div>
           <div class="body">
-            <h2 class="headline">Diskret. Ingen strings.</h2>
+            <h2 class="headline">Diskret. Ingen får vite noe.</h2>
             <div class="profile">
               <span class="profile-name">Sara</span>
               <span class="profile-meta">31 · <span data-city>Norge</span></span>
             </div>
-            <p class="blurb"><span class="dot-live" aria-hidden="true"></span> Skilt — søker noen etter jobb i dag</p>
+            <p class="blurb"><span class="dot-live" aria-hidden="true"></span> Skilt — vil ha selskap etter jobb i dag 😏</p>
             <div class="cta-row">
               <a class="btn btn-cta" data-cta href="#" rel="noopener nofollow sponsored" aria-label="Skriv til Sara">
                 Skriv til Sara 💬
@@ -605,18 +663,18 @@ img{display:block;max-width:100%;height:auto}
             </div>
             <img src="profile-wall.svg" alt="Profiler i Norge" width="400" height="500" loading="lazy" decoding="async">
             <div class="wall-overlay">
-              <div class="wall-count"><span id="liveCount">1 247</span></div>
-              <div class="wall-label">kvinner i <span data-city>Norge</span> akkurat nå</div>
+              <div class="wall-count"><span id="liveCount">248</span></div>
+              <div class="wall-label">kvinner <span data-in-place>i ditt nærområde</span> akkurat nå</div>
             </div>
             <span class="swipe-tag like-tag" aria-hidden="true">LIK</span>
             <span class="swipe-tag pass-tag" aria-hidden="true">NESTE</span>
           </div>
           <div class="body">
             <h2 class="headline">3 profiler venter på melding fra deg</h2>
-            <p class="blurb"><span class="dot-live" aria-hidden="true"></span> Emma, Sara og 1 245 andre er online i <span data-city>Norge</span></p>
+            <p class="blurb"><span class="dot-live" aria-hidden="true"></span> Emma, Sara og <span id="blurbOthers">246</span> andre er online <span data-in-place>i ditt nærområde</span></p>
             <div class="cta-row">
               <a class="btn btn-cta" id="primaryCta" data-cta href="#" rel="noopener nofollow sponsored" aria-label="Se alle profiler">
-                Se alle profiler i <span data-city>Norge</span> →
+                Se alle profiler <span data-in-place>i ditt nærområde</span> →
               </a>
               <p class="cta-sub">Gratis å bli med · Diskret · 18+</p>
             </div>
@@ -626,6 +684,9 @@ img{display:block;max-width:100%;height:auto}
 
     </div>
   </section>
+
+  <!-- Mobil swipe-hint (vises én gang, fader ut) -->
+  <p class="swipe-hint" id="swipeHint" aria-hidden="true">← Sveip profiler →</p>
 
   <!-- Dots -->
   <nav class="dots" id="dots" aria-label="Velg slide">
@@ -664,8 +725,6 @@ img{display:block;max-width:100%;height:auto}
   var SITE_NAME = 'DateMatch';
 
   // Fallback-by hvis geo-API feiler.
-  var FALLBACK_CITY = 'Norge';
-
   // =========================================================
   // STATE
   // =========================================================
@@ -681,6 +740,7 @@ img{display:block;max-width:100%;height:auto}
   var ageNo   = document.getElementById('ageNo');
   var app     = document.getElementById('app');
   var liveCount = document.getElementById('liveCount');
+  var blurbOthersEl = document.getElementById('blurbOthers');
 
   var current = 0;
   var total   = slides.length;
@@ -691,9 +751,31 @@ img{display:block;max-width:100%;height:auto}
   function unlockApp(){
     ageGate.hidden = true;
     app.setAttribute('aria-hidden','false');
-    // Move focus to first interactive element on slide 1
-    var firstBtn = document.querySelector('.slide[data-slide="0"] [data-next]');
+    var firstBtn = document.querySelector('.slide[data-slide="0"] [data-cta]');
     if (firstBtn) firstBtn.focus({preventScroll:true});
+    showSwipeHints();
+  }
+
+  // Subtil swipe-hint: én wiggle på det aktive kortet + fading tekst
+  // under kortene. Vises bare på touch-enheter (desktop har piler) og kun
+  // én gang per sesjon.
+  function showSwipeHints(){
+    try {
+      if (sessionStorage.getItem('swipeHintShown') === 'true') return;
+      sessionStorage.setItem('swipeHintShown','true');
+    } catch(e){}
+    var isDesktop = window.matchMedia && window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+    if (isDesktop) return;
+    var hint = document.getElementById('swipeHint');
+    setTimeout(function(){
+      var active = slides[current];
+      if (active) {
+        active.classList.add('hint-wiggle');
+        setTimeout(function(){ active.classList.remove('hint-wiggle'); }, 1500);
+      }
+      if (hint) hint.classList.add('show');
+    }, 700);
+    setTimeout(function(){ if (hint) hint.classList.remove('show'); }, 4200);
   }
   function showAgeGate(){
     ageGate.hidden = false;
@@ -724,19 +806,22 @@ img{display:block;max-width:100%;height:auto}
   });
 
   // =========================================================
-  // CAROUSEL — stacked cards (Tinder-stil)
-  // Aktiv slide foran, prev/next subtilt bak, far skjult.
+  // CAROUSEL — feed-modell: kun aktivt + neste kort er synlig.
+  // Tidligere viste kort går til "far" (skjult) — ikke til "prev".
+  // Det matcher Tinder-mentaliteten: kortet du har bestemt deg for
+  // forsvinner, neste kommer fram.
   // =========================================================
+  var arrowPrev = document.querySelector('[data-arrow="prev"]');
+  var arrowNext = document.querySelector('[data-arrow="next"]');
+
   function updatePositions(){
     slides.forEach(function(s, i){
       var pos;
       if (i === current) pos = 'active';
-      else if (i === current - 1) pos = 'prev';
       else if (i === current + 1) pos = 'next';
       else pos = 'far';
       s.setAttribute('data-pos', pos);
       s.setAttribute('aria-hidden', pos === 'active' ? 'false' : 'true');
-      // Hindre tab/AT-tilgang til ikke-aktive kort
       if (pos === 'active') s.removeAttribute('inert');
       else s.setAttribute('inert','');
     });
@@ -744,6 +829,8 @@ img{display:block;max-width:100%;height:auto}
       if (idx === current) d.setAttribute('aria-current','true');
       else d.removeAttribute('aria-current');
     });
+    if (arrowPrev) arrowPrev.disabled = current === 0;
+    if (arrowNext) arrowNext.disabled = current === total-1;
   }
 
   function goTo(i, animate){
@@ -758,6 +845,44 @@ img{display:block;max-width:100%;height:auto}
     }
   }
 
+  // =========================================================
+  // FLY-OFF — felles animasjon for både swipe og "Neste profil"-knapp.
+  // Kortet flyr ut i gitt retning før neste kort tar over.
+  // =========================================================
+  function flyOffAndAdvance(slide, direction){
+    if (!slide) return;
+    slide.classList.remove('is-dragging');
+    var newIdx = current + 1;
+    if (newIdx > total - 1){
+      // Ingen flere kort — snap tilbake
+      clearDragTransform(slide);
+      return;
+    }
+    var cw = carousel.clientWidth || 360;
+    var flyX = direction === 'right' ? cw * 1.3 : -cw * 1.3;
+    var flyRot = direction === 'right' ? 28 : -28;
+    slide.style.transition = 'transform 280ms cubic-bezier(.4,0,.2,1),opacity 220ms ease';
+    slide.style.transform = 'translateX(' + flyX + 'px) rotate(' + flyRot + 'deg)';
+    slide.style.opacity = '0';
+
+    setTimeout(function(){
+      // Slå av transitions mens vi snapper kortet til "far"-posisjon
+      // slik at det ikke animeres synlig tilbake til midten.
+      slide.classList.add('no-anim');
+      slide.style.transition = '';
+      slide.style.transform = '';
+      slide.style.opacity = '';
+      var lt = slide.querySelector('.like-tag');
+      var pt = slide.querySelector('.pass-tag');
+      if (lt) lt.style.opacity = '';
+      if (pt) pt.style.opacity = '';
+      current = newIdx;
+      updatePositions();
+      void slide.offsetWidth;
+      slide.classList.remove('no-anim');
+    }, 280);
+  }
+
   // Dot clicks
   dots.forEach(function(d){
     d.addEventListener('click', function(){
@@ -765,45 +890,56 @@ img{display:block;max-width:100%;height:auto}
     });
   });
 
-  // "Neste"-knapper
+  // "Neste profil"-knapper — bruker fly-off så det føles sammenhengende
   nextBtns.forEach(function(b){
     b.addEventListener('click', function(){
-      goTo(current + 1, true);
+      flyOffAndAdvance(slides[current], 'left');
     });
   });
 
+  // Desktop nav-piler
+  if (arrowNext){
+    arrowNext.addEventListener('click', function(){
+      flyOffAndAdvance(slides[current], 'right');
+    });
+  }
+  if (arrowPrev){
+    arrowPrev.addEventListener('click', function(){
+      goTo(current - 1, true);
+    });
+  }
+
   // Keyboard
   document.addEventListener('keydown', function(e){
-    if (!ageGate.hidden) return; // ignore while age gate is up
-    if (e.key === 'ArrowRight'){ e.preventDefault(); goTo(current+1, true); }
+    if (!ageGate.hidden) return;
+    if (e.key === 'ArrowRight'){ e.preventDefault(); flyOffAndAdvance(slides[current], 'right'); }
     else if (e.key === 'ArrowLeft'){ e.preventDefault(); goTo(current-1, true); }
   });
 
   // =========================================================
   // SWIPE — pointer events (Tinder-feel)
-  //  • Swipe HØYRE = "lik" = redirect til CTA-URL (konvertering)
-  //  • Swipe VENSTRE = "neste profil" = navigerer videre
-  //  • Aktivt kort vipper med fingeren og viser LIK/NESTE-overlay
+  //  • Begge retninger advancer til neste kort (ingen redirect)
+  //  • Høyre viser "LIK", venstre viser "NESTE" — visuell feedback,
+  //    selve handlingen er identisk: kortet flyr ut, neste tar over
+  //  • Konvertering skjer via CTA-knappene på hvert kort, ikke swipe
   // =========================================================
   var startX = 0, startY = 0, dx = 0, dragging = false, locked = false;
   var dragSlide = null;
   var SWIPE_THRESHOLD = 70; // px før swipe regnes som committed
-  var LIKE_REDIRECT_THRESHOLD = 110; // sterkere swipe høyre = redirect
 
   function clearDragTransform(slide){
-    if (slide) slide.style.transform = '';
-    if (slide){
-      var lt = slide.querySelector('.like-tag');
-      var pt = slide.querySelector('.pass-tag');
-      if (lt) lt.style.opacity = '';
-      if (pt) pt.style.opacity = '';
-    }
+    if (!slide) return;
+    slide.style.transform = '';
+    var lt = slide.querySelector('.like-tag');
+    var pt = slide.querySelector('.pass-tag');
+    if (lt) lt.style.opacity = '';
+    if (pt) pt.style.opacity = '';
   }
 
   function updateSwipeOverlay(slide, delta){
     var lt = slide.querySelector('.like-tag');
     var pt = slide.querySelector('.pass-tag');
-    var ratio = Math.min(Math.abs(delta) / LIKE_REDIRECT_THRESHOLD, 1);
+    var ratio = Math.min(Math.abs(delta) / 100, 1);
     if (delta > 0){
       if (lt) lt.style.opacity = ratio;
       if (pt) pt.style.opacity = 0;
@@ -813,15 +949,9 @@ img{display:block;max-width:100%;height:auto}
     }
   }
 
-  function redirectToOffer(){
-    var href = (primaryCta && primaryCta.getAttribute('href')) || REDIRECT_URL.replace('{CITY}', encodeURIComponent(FALLBACK_CITY));
-    window.location.href = href;
-  }
-
   function onPointerDown(e){
     if (!ageGate.hidden) return;
     if (e.pointerType === 'mouse' && e.button !== 0) return;
-    // Ikke fang drag på CTA-knappen eller andre interaktive elementer
     if (e.target.closest('a,button')) return;
     dragging = true; locked = false;
     startX = e.clientX; startY = e.clientY; dx = 0;
@@ -845,9 +975,8 @@ img{display:block;max-width:100%;height:auto}
       }
     }
     dx = x;
-    // Litt motstand på første/siste når man swiper "feil vei" (neste finnes ikke)
-    var edgeBlock = (current === total-1 && dx < 0);
-    var effective = edgeBlock ? dx * 0.4 : dx;
+    var edgeBlock = (current === total-1); // ingen flere kort å gå til
+    var effective = edgeBlock ? dx * 0.35 : dx;
     var rotation = (effective / carousel.clientWidth) * 14;
     dragSlide.style.transform = 'translateX(' + effective + 'px) scale(1) rotate(' + rotation + 'deg)';
     updateSwipeOverlay(dragSlide, dx);
@@ -858,31 +987,11 @@ img{display:block;max-width:100%;height:auto}
     dragSlide.classList.remove('is-dragging');
     var slideRef = dragSlide;
 
-    if (dx > LIKE_REDIRECT_THRESHOLD){
-      // SWIPE HØYRE → LIK → REDIRECT
-      // La kortet fly ut til høyre før vi navigerer (~180ms)
-      var cw = carousel.clientWidth || 360;
-      slideRef.style.transform = 'translateX(' + (cw * 1.2) + 'px) rotate(28deg)';
-      setTimeout(redirectToOffer, 180);
-    } else if (dx < -SWIPE_THRESHOLD){
-      // SWIPE VENSTRE → NESTE PROFIL
-      var newIdx = current + 1;
-      if (newIdx <= total-1){
-        current = newIdx;
-        updatePositions();
-        requestAnimationFrame(function(){ clearDragTransform(slideRef); });
-      } else {
-        // Siste slide — snap tilbake (eller redirect; vi snapper for nå)
-        clearDragTransform(slideRef);
-      }
-    } else if (dx > SWIPE_THRESHOLD){
-      // Mild swipe høyre — også en "lik"-intensjon, gå direkte til CTA
-      redirectToOffer();
+    if (Math.abs(dx) > SWIPE_THRESHOLD){
+      flyOffAndAdvance(slideRef, dx > 0 ? 'right' : 'left');
     } else {
-      // Under threshold — snap tilbake
       clearDragTransform(slideRef);
     }
-
     dx = 0;
     dragSlide = null;
     try { carousel.releasePointerCapture(e.pointerId); } catch(_){}
@@ -897,84 +1006,150 @@ img{display:block;max-width:100%;height:auto}
   carousel.addEventListener('dragstart', function(e){ e.preventDefault(); });
 
   // =========================================================
-  // GEO — ipapi.co
-  // Setter {CITY} på alle [data-city], [data-city-tag], CTA-href,
-  // alt-tekster og <title>/<meta description>.
-  // Cache i sessionStorage.
+  // GEO — flernivå-deteksjon, presisjon: URL-param > city > fylke > fallback
+  //
+  // Prioritetsrekkefølge:
+  //   1. URL-parameter (?city= / ?by= / ?fylke=) — best for paid traffic
+  //      med by-targeting; annonsenettverk har macros for dette.
+  //      FB: {{city}}, Google Ads: {loc_physical_ms}
+  //   2. ipapi.co city (vil treffe storby/POP-by, ~70-80% av norske IP-er)
+  //   3. ipapi.co region (fylke) — fanger opp småbyer som faller utenfor
+  //      city-deteksjon
+  //   4. "ditt nærområde" / "Norge" som siste utvei
+  //
+  // To utganger:
+  //   • place    — stedsnavn alene (brukes i "27 · {place}", tags, meta)
+  //   • inPhrase — full "i [sted]"-frase med menneskelig fallback
   // =========================================================
-  function applyCity(city){
-    var safe = (city || FALLBACK_CITY).trim() || FALLBACK_CITY;
+  var FALLBACK_PLACE  = 'Norge';
+  var FALLBACK_INPHRASE = 'i ditt nærområde';
 
-    document.querySelectorAll('[data-city]').forEach(function(el){
-      el.textContent = safe;
-    });
-    document.querySelectorAll('[data-city-tag]').forEach(function(el){
-      el.textContent = safe;
-    });
-
-    // Alt-tekster: oppdater "fra Norge" → "fra {by}"
-    document.querySelectorAll('.media img').forEach(function(img){
-      var alt = img.getAttribute('alt') || '';
-      img.setAttribute('alt', alt.replace(/fra .+$/, 'fra ' + safe));
-    });
-
-    // <title> og description
-    document.title = 'Møt single i ' + safe + ' | ' + SITE_NAME;
-    var desc = document.querySelector('meta[name="description"]');
-    if (desc) desc.setAttribute('content',
-      'Single kvinner i ' + safe + ' søker uforpliktende møter. Verifiserte profiler — bli med gratis.');
-    var ogt = document.querySelector('meta[property="og:title"]');
-    if (ogt) ogt.setAttribute('content', 'Møt single i ' + safe + ' | ' + SITE_NAME);
-    var ogd = document.querySelector('meta[property="og:description"]');
-    if (ogd) ogd.setAttribute('content',
-      'Single kvinner i ' + safe + ' søker uforpliktende møter. Verifiserte profiler — bli med gratis.');
-
-    // CTA-href med {CITY} substitusjon — settes på ALLE [data-cta]-elementer
-    // (én per slide), slik at hver slide er et konverteringspunkt.
-    var href = REDIRECT_URL.replace('{CITY}', encodeURIComponent(safe));
-    ctas.forEach(function(a){ a.setAttribute('href', href); });
+  function readUrlGeo(){
+    try {
+      var p = new URLSearchParams(window.location.search);
+      var v = p.get('city') || p.get('by') || p.get('fylke') || p.get('region');
+      if (v) return v.trim().slice(0, 60);
+    } catch(e){}
+    return null;
   }
 
-  function loadCity(){
-    var cached;
-    try { cached = sessionStorage.getItem('geoCity'); } catch(e){}
-    if (cached){ applyCity(cached); return; }
+  function resolveGeo(urlPlace, city, region){
+    if (urlPlace) return { place: urlPlace, inPhrase: 'i ' + urlPlace, level: 'url' };
+    if (city)     return { place: city,     inPhrase: 'i ' + city,     level: 'city' };
+    if (region)   return { place: region,   inPhrase: 'i ' + region,   level: 'region' };
+    return { place: FALLBACK_PLACE, inPhrase: FALLBACK_INPHRASE, level: 'fallback' };
+  }
 
-    // Default fallback applied immediately to avoid flash
-    applyCity(FALLBACK_CITY);
+  function applyGeo(g){
+    // Stedsnavn alene (tag-chips, profil-meta, fallback-bruk)
+    document.querySelectorAll('[data-city],[data-city-tag],[data-place]').forEach(function(el){
+      el.textContent = g.place;
+    });
+    // "i [sted]"-fraser med menneskelig fallback
+    document.querySelectorAll('[data-in-place]').forEach(function(el){
+      el.textContent = g.inPhrase;
+    });
+
+    // Alt-tekster: "fra X"
+    document.querySelectorAll('.media img').forEach(function(img){
+      var alt = img.getAttribute('alt') || '';
+      img.setAttribute('alt', alt.replace(/fra .+$/, 'fra ' + g.place));
+    });
+
+    // Meta-tags
+    var titlePlace = (g.level === 'fallback') ? FALLBACK_PLACE : g.place;
+    document.title = 'Møt single i ' + titlePlace + ' | ' + SITE_NAME;
+    var meta = function(sel, val){
+      var m = document.querySelector(sel);
+      if (m) m.setAttribute('content', val);
+    };
+    var descTxt = 'Single kvinner ' + g.inPhrase + ' søker uforpliktende møter. Bli med gratis.';
+    meta('meta[name="description"]', descTxt);
+    meta('meta[property="og:title"]', 'Møt single i ' + titlePlace + ' | ' + SITE_NAME);
+    meta('meta[property="og:description"]', descTxt);
+
+    // CTA-href: {CITY} → stedsnavn (URL-encoded). Sender alltid en konkret
+    // verdi videre til merchant slik at de kan rute/tracke per geo-nivå.
+    var href = REDIRECT_URL
+      .replace('{CITY}', encodeURIComponent(g.place))
+      .replace('{LEVEL}', encodeURIComponent(g.level));
+    ctas.forEach(function(a){ a.setAttribute('href', href); });
+
+    // Restart live-counter med geo-bevisst baseline (Oslo > Lillehammer).
+    startLiveTicker(g);
+  }
+
+  function loadGeo(){
+    // 1. URL-param har høyest prio og overstyrer alt
+    var urlPlace = readUrlGeo();
+    if (urlPlace){
+      applyGeo(resolveGeo(urlPlace, null, null));
+      return;
+    }
+
+    // 2. Cache fra tidligere ipapi-kall
+    var cached;
+    try { cached = sessionStorage.getItem('geoState'); } catch(e){}
+    if (cached){
+      try { applyGeo(JSON.parse(cached)); return; } catch(e){}
+    }
+
+    // 3. Fallback umiddelbart (unngår flash), så ipapi-call
+    applyGeo(resolveGeo(null, null, null));
 
     fetch('https://ipapi.co/json/', {credentials:'omit'})
       .then(function(r){ return r.ok ? r.json() : null; })
       .then(function(data){
         if (!data) return;
-        var city = data.city || data.region || FALLBACK_CITY;
-        try { sessionStorage.setItem('geoCity', city); } catch(e){}
-        applyCity(city);
+        var g = resolveGeo(null, data.city, data.region);
+        try { sessionStorage.setItem('geoState', JSON.stringify(g)); } catch(e){}
+        applyGeo(g);
       })
       .catch(function(){ /* fallback already applied */ });
   }
-  loadCity();
-
-  // Initial CTA href på alle [data-cta] før geo resolver
-  var initialHref = REDIRECT_URL.replace('{CITY}', encodeURIComponent(FALLBACK_CITY));
-  ctas.forEach(function(a){ a.setAttribute('href', initialHref); });
+  loadGeo();
 
   // =========================================================
-  // LIVE COUNTER — tikker subtilt opp/ned for "alive"-følelse på slide 3.
-  // Bytt range/offset her for å tune basistallet.
+  // LIVE COUNTER — tikker subtilt opp/ned med tall som er believable
+  // for "online nå i {sted}". Skalerer basisverdien etter geo-presisjon:
+  //   storby   → 220-360   småby/ukjent → 60-140
+  //   fylke    → 80-160    ingen geo    → 180-260
+  // Variansen per tick er ~1-2% av basistallet (ikke synkroniserte hopp).
   // =========================================================
-  (function liveTicker(){
+  var BIG_CITIES_LIVE = ['Oslo','Bergen','Trondheim','Stavanger','Drammen','Tromsø','Kristiansand','Fredrikstad','Sandnes','Sarpsborg','Skien','Bodø','Ålesund','Tønsberg','Moss','Haugesund','Sandefjord','Arendal'];
+  var liveTickerHandle = null;
+
+  function liveCountBase(g){
+    var rand = function(a,b){ return a + Math.floor(Math.random() * (b - a + 1)); };
+    if (g.level === 'fallback') return rand(180, 260);
+    if (g.level === 'region')   return rand(80, 160);
+    if (BIG_CITIES_LIVE.indexOf(g.place) !== -1) return rand(220, 360);
+    return rand(60, 140);
+  }
+
+  function startLiveTicker(geo){
     if (!liveCount) return;
-    var base = 1247;
-    function fmt(n){ return n.toLocaleString('nb-NO').replace(/ /g,' '); }
-    liveCount.textContent = fmt(base);
-    setInterval(function(){
-      base += Math.floor(Math.random() * 5) - 2; // -2..+2
-      if (base < 1180) base += 6;
-      if (base > 1320) base -= 6;
-      liveCount.textContent = fmt(base);
-    }, 2800);
-  })();
+    if (liveTickerHandle){ clearTimeout(liveTickerHandle); liveTickerHandle = null; }
+    var base = liveCountBase(geo);
+    var cur  = base;
+    var min  = Math.max(20, Math.floor(base * 0.85));
+    var max  = Math.ceil(base * 1.15);
+    var step = base < 100 ? 1 : (base < 200 ? 2 : 3);
+    function render(){
+      liveCount.textContent = cur;
+      if (blurbOthersEl) blurbOthersEl.textContent = Math.max(1, cur - 2);
+    }
+    render();
+    function tick(){
+      var d = Math.floor(Math.random() * (step * 2 + 1)) - step;
+      cur += d;
+      if (cur < min) cur = min;
+      if (cur > max) cur = max;
+      render();
+      liveTickerHandle = setTimeout(tick, 2400 + Math.random() * 1800);
+    }
+    liveTickerHandle = setTimeout(tick, 2400 + Math.random() * 1800);
+  }
 
   // Activity timestamps (statisk randomisert per load) for "X min siden"-feel
   (function setActivity(){
