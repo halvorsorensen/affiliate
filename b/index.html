@@ -660,18 +660,78 @@ img{display:block;max-width:100%;height:auto}
     var cached;
     try { cached = sessionStorage.getItem('geoState'); } catch(e){}
     if (cached){
-      try { applyGeo(JSON.parse(cached)); return; } catch(e){}
+      try { applyGeo(JSON.parse(cached)); } catch(e){}
+    } else {
+      applyGeo(resolveGeo(null, null, null));
     }
-    applyGeo(resolveGeo(null, null, null));
-    fetch('https://ipapi.co/json/', {credentials:'omit'})
-      .then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(data){
-        if (!data) return;
-        var g = resolveGeo(null, data.city, data.region);
+    raceIpGeo();
+    tryGpsSilent();
+  }
+
+  function fetchJson(url, ms){
+    return new Promise(function(resolve){
+      var done = false;
+      var t = setTimeout(function(){ if(!done){ done = true; resolve(null); } }, ms || 4000);
+      fetch(url, {credentials:'omit'})
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(d){ if(!done){ done = true; clearTimeout(t); resolve(d); } })
+        .catch(function(){ if(!done){ done = true; clearTimeout(t); resolve(null); } });
+    });
+  }
+
+  // To uavhengige IP-tjenester. Hvis begge gir samme by → høy konfidens.
+  // Hvis de spriker → vi bruker fylket istedenfor (lavere konfidens, ærligere).
+  function raceIpGeo(){
+    Promise.all([
+      fetchJson('https://ipapi.co/json/', 4500).then(function(d){
+        return d ? { city:d.city||null, region:d.region||null } : null;
+      }),
+      fetchJson('https://ipwho.is/', 4500).then(function(d){
+        return d && d.success !== false ? { city:d.city||null, region:d.region||null } : null;
+      })
+    ]).then(function(results){
+      var a = results[0], b = results[1];
+      var best = null;
+      if (a && b){
+        if (a.city && b.city && a.city === b.city)      best = { city:a.city, region:a.region };
+        else if (a.city && b.city)                       best = { city:null, region:a.region || b.region };
+        else if (a.city)                                 best = a;
+        else if (b.city)                                 best = b;
+        else                                             best = { city:null, region:a.region || b.region };
+      } else if (a){ best = a; }
+      else if (b){ best = b; }
+      if (best){
+        var g = resolveGeo(null, best.city, best.region);
         try { sessionStorage.setItem('geoState', JSON.stringify(g)); } catch(e){}
         applyGeo(g);
-      })
-      .catch(function(){});
+      }
+    });
+  }
+
+  // Hvis brukeren allerede har gitt lokasjonstillatelse til dette
+  // domenet (sjelden, men gratis nøyaktighetsoppgradering når det skjer),
+  // henter vi GPS-koordinater og reverse-geocoder via BigDataCloud (gratis,
+  // ingen API-key, designet for client-side).
+  function tryGpsSilent(){
+    if (!navigator.permissions || !navigator.geolocation) return;
+    navigator.permissions.query({name:'geolocation'}).then(function(result){
+      if (result.state !== 'granted') return;
+      navigator.geolocation.getCurrentPosition(function(pos){
+        var lat = pos.coords.latitude.toFixed(3);
+        var lon = pos.coords.longitude.toFixed(3);
+        fetchJson('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='+lat+'&longitude='+lon+'&localityLanguage=no', 4000)
+          .then(function(d){
+            if (!d) return;
+            var city = d.city || d.locality || null;
+            var region = d.principalSubdivision || null;
+            if (city || region){
+              var g = resolveGeo(null, city, region);
+              try { sessionStorage.setItem('geoState', JSON.stringify(g)); } catch(e){}
+              applyGeo(g);
+            }
+          });
+      }, function(){}, {maximumAge: 60*60*1000, timeout: 5000});
+    }).catch(function(){});
   }
   loadGeo();
 
