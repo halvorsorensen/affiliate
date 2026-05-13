@@ -308,8 +308,27 @@ img{display:block;max-width:100%;height:auto}
 }
 
 .cta-row{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+
+/* Online-status rett over CTA — knytter "hun er her nå" til selve handlingen */
+.online-status{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  font-size:12.5px;
+  color:var(--navy-soft);
+  font-weight:500;
+  letter-spacing:.01em;
+  margin-bottom:-2px;
+}
+.online-status .dot-green{
+  width:8px;height:8px;border-radius:50%;
+  background:#2ECC71;
+  box-shadow:0 0 0 0 rgba(46,204,113,.7);
+  animation:pulse 1.6s infinite;
+  flex-shrink:0;
+}
+
 .btn-cta{
-  display:block;text-align:center;text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  text-align:center;text-decoration:none;
   background:var(--coral);
   color:var(--navy);
   padding:18px 22px;
@@ -318,6 +337,10 @@ img{display:block;max-width:100%;height:auto}
   box-shadow:0 10px 26px rgba(216,140,140,.5);
   letter-spacing:.005em;
   animation:ctaPulse 2.6s ease-in-out infinite;
+}
+.btn-cta .ico-chat{
+  width:1.18em;height:1.18em;
+  flex-shrink:0;
 }
 .btn-cta:hover{background:var(--coral-deep);color:var(--white)}
 @keyframes ctaPulse{
@@ -418,7 +441,7 @@ img{display:block;max-width:100%;height:auto}
       <div class="scene-text-wrap">
         <p class="scene-text active" data-scene="0">Hei :) Heter Maja, 28, og er skilt. Bor <span data-in-place>i Oslo</span>. Ikke ute etter noe seriøst, bare lyst på sex.</p>
         <p class="scene-text" data-scene="1">Liker menn som tar styringen og er direkte. Helst diskret, og helst i kveld.</p>
-        <p class="scene-text" data-scene="2">Bare skriv hva du har lyst på, så møtes vi i kveld. Er kåt og online akkurat nå.</p>
+        <p class="scene-text" data-scene="2">Bare skriv hva du har lyst på, så møtes vi i kveld. Er så jævlig kåt...</p>
       </div>
 
       <div class="watchers" aria-live="polite">
@@ -427,8 +450,18 @@ img{display:block;max-width:100%;height:auto}
       </div>
 
       <div class="cta-row">
-        <a class="btn btn-cta" id="primaryCta" data-cta href="#" rel="noopener nofollow sponsored">
-          Skriv til Maja →
+        <div class="online-status" aria-live="polite">
+          <span class="dot-green" aria-hidden="true"></span>
+          <span>Maja er online akkurat nå</span>
+        </div>
+        <a class="btn btn-cta" id="primaryCta" data-cta href="#" rel="noopener nofollow sponsored" aria-label="Skriv til Maja">
+          <svg class="ico-chat" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 5C4 3.9 4.9 3 6 3H18C19.1 3 20 3.9 20 5V14C20 15.1 19.1 16 18 16H11L7 20V16H6C4.9 16 4 15.1 4 14V5Z" fill="currentColor"/>
+            <circle cx="9" cy="9.5" r="1.1" fill="#FBE7E2"/>
+            <circle cx="12" cy="9.5" r="1.1" fill="#FBE7E2"/>
+            <circle cx="15" cy="9.5" r="1.1" fill="#FBE7E2"/>
+          </svg>
+          Skriv til Maja
         </a>
         <p class="cta-sub">Gratis å bli med · Diskret · 18+</p>
       </div>
