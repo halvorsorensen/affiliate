@@ -409,6 +409,15 @@ img{display:block;max-width:100%;height:auto}
   50%{box-shadow:0 12px 32px rgba(216,140,140,.65),0 0 0 10px rgba(216,140,140,.12)}
 }
 
+/* Inline SVG-ikoner (erstatter emojis — konsistent på tvers av OS) */
+.ico-svg{
+  display:inline-block;
+  width:1em;height:1em;
+  vertical-align:-.16em;
+  margin-left:2px;
+  flex-shrink:0;
+}
+
 /* Live-prikk inline i blurb-tekst (pulsende grønn) */
 .dot-live{
   display:inline-block;
@@ -602,7 +611,7 @@ img{display:block;max-width:100%;height:auto}
               <span class="profile-name">Emma</span>
               <span class="profile-meta">27 · <span data-city>Norge</span></span>
             </div>
-            <p class="blurb"><span class="dot-live" aria-hidden="true"></span> Skriver til 3 nå — kom før køen 🔥</p>
+            <p class="blurb"><span class="dot-live" aria-hidden="true"></span> Liker selvsikre menn som tar initiativ. Vil bli underholdt i kveld.</p>
             <div class="cta-row">
               <a class="btn btn-cta" data-cta href="#" rel="noopener nofollow sponsored" aria-label="Skriv til Emma">
                 Skriv til Emma 💬
@@ -638,7 +647,7 @@ img{display:block;max-width:100%;height:auto}
               <span class="profile-name">Sara</span>
               <span class="profile-meta">31 · <span data-city>Norge</span></span>
             </div>
-            <p class="blurb"><span class="dot-live" aria-hidden="true"></span> Skilt — vil ha selskap etter jobb i dag 😏</p>
+            <p class="blurb"><span class="dot-live" aria-hidden="true"></span> Skilt — vil ha selskap etter jobb i dag<svg class="ico-svg ico-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21S3 14.7 3 9.2C3 6.3 5.3 4 8.2 4C9.7 4 11 4.6 12 5.7C13 4.6 14.3 4 15.8 4C18.7 4 21 6.3 21 9.2C21 14.7 12 21 12 21Z" fill="#D8506B"/><path d="M7.5 8C8.2 7 9 6.6 10 6.4" stroke="#FFD9D2" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg></p>
             <div class="cta-row">
               <a class="btn btn-cta" data-cta href="#" rel="noopener nofollow sponsored" aria-label="Skriv til Sara">
                 Skriv til Sara 💬
@@ -663,7 +672,7 @@ img{display:block;max-width:100%;height:auto}
             </div>
             <img src="profile-wall.svg" alt="Profiler i Norge" width="400" height="500" loading="lazy" decoding="async">
             <div class="wall-overlay">
-              <div class="wall-count"><span id="liveCount">248</span></div>
+              <div class="wall-count"><span id="liveCount">132</span></div>
               <div class="wall-label">kvinner <span data-in-place>i ditt nærområde</span> akkurat nå</div>
             </div>
             <span class="swipe-tag like-tag" aria-hidden="true">LIK</span>
@@ -1120,30 +1129,40 @@ img{display:block;max-width:100%;height:auto}
 
   function liveCountBase(g){
     var rand = function(a,b){ return a + Math.floor(Math.random() * (b - a + 1)); };
-    if (g.level === 'fallback') return rand(180, 260);
-    if (g.level === 'region')   return rand(80, 160);
-    if (BIG_CITIES_LIVE.indexOf(g.place) !== -1) return rand(220, 360);
-    return rand(60, 140);
+    if (g.level === 'fallback') return rand(110, 145);
+    if (g.level === 'region')   return rand(70, 105);
+    if (BIG_CITIES_LIVE.indexOf(g.place) !== -1) return rand(158, 182); // Oslo etc.
+    return rand(42, 78); // småby (min 30 garantert via clamp i ticker)
   }
 
   function startLiveTicker(geo){
     if (!liveCount) return;
     if (liveTickerHandle){ clearTimeout(liveTickerHandle); liveTickerHandle = null; }
     var base = liveCountBase(geo);
-    var cur  = base;
-    var min  = Math.max(20, Math.floor(base * 0.85));
-    var max  = Math.ceil(base * 1.15);
-    var step = base < 100 ? 1 : (base < 200 ? 2 : 3);
+    // Smale ranges: ±9-10% rundt base for å føles realistisk
+    var min  = Math.max(30, Math.floor(base * 0.91));
+    var max  = Math.ceil(base * 1.09);
+
+    // Smooth migrering: hvis det allerede står et tall (f.eks. fra fallback
+    // før ipapi svarte), drifter vi gradvis mot ny range istedenfor å hoppe.
+    var cur = parseInt(liveCount.textContent, 10);
+    if (isNaN(cur) || cur <= 0) cur = base;
+
     function render(){
       liveCount.textContent = cur;
       if (blurbOthersEl) blurbOthersEl.textContent = Math.max(1, cur - 2);
     }
     render();
+
     function tick(){
-      var d = Math.floor(Math.random() * (step * 2 + 1)) - step;
-      cur += d;
-      if (cur < min) cur = min;
-      if (cur > max) cur = max;
+      if (cur > max){
+        cur -= Math.min(2, cur - max + 1); // drift ned mot range
+      } else if (cur < min){
+        cur += Math.min(2, min - cur + 1); // drift opp mot range
+      } else {
+        // Inne i range — ±1 hver gang for menneskelig pulsering
+        cur += Math.random() < 0.5 ? -1 : 1;
+      }
       render();
       liveTickerHandle = setTimeout(tick, 2400 + Math.random() * 1800);
     }
