@@ -6,12 +6,12 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer-when-downgrade">
 
-<title>Maja, 28 | DateMatch</title>
-<meta name="description" content="Maja, 28, søker sex i kveld. Diskret, ingen forpliktelser.">
+<title>Stine, 20 | DateMatch</title>
+<meta name="description" content="Stine, 20, søker sex i kveld. Diskret, ingen forpliktelser.">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Maja, 28 | DateMatch">
-<meta property="og:description" content="Maja, 28, søker sex i kveld. Diskret, ingen forpliktelser.">
+<meta property="og:title" content="Stine, 20 | DateMatch">
+<meta property="og:description" content="Stine, 20, søker sex i kveld. Diskret, ingen forpliktelser.">
 <meta property="og:locale" content="nb_NO">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -232,6 +232,16 @@ img{display:block;max-width:100%;height:auto}
 .nav-arrow:hover{background:#fff;transform:translateY(-50%) scale(1.06)}
 .nav-arrow:disabled{opacity:.25;cursor:default;pointer-events:none}
 
+/* På siste scene blir høyre-pilen en CTA istedenfor å være disabled.
+   Forward-gesten leder til konverteringen istedenfor å stoppe. */
+.nav-arrow.is-cta{
+  background:var(--coral);
+  color:var(--navy);
+  box-shadow:0 8px 22px rgba(216,140,140,.5);
+  animation:ctaPulse 2.6s ease-in-out infinite;
+}
+.nav-arrow.is-cta:hover{background:var(--coral-deep);color:var(--white)}
+
 /* Progress-segmenter på toppen av bildet (auto-advance indikator) */
 .progress{
   position:absolute;top:6px;left:8px;right:8px;
@@ -386,16 +396,16 @@ img{display:block;max-width:100%;height:auto}
        Tekst i .scene-text-elementene (data-scene="0/1/2"-rekkefølge).
        Profilnavn/alder oppdateres i .profile-name og .profile-meta.
        ========================================================= -->
-  <section class="profile-card" id="profileCard" aria-label="Maja, 28">
+  <section class="profile-card" id="profileCard" aria-label="Stine, 20">
 
     <div class="profile-media" id="media">
-      <!-- AI-prompt forslag: "candid intimate portrait of a 28-year-old
-           scandinavian woman, soft natural light, warm coral tones, looking
-           at camera with subtle smile, intimate but tasteful, 4:5 portrait,
-           photorealistic, --ar 4:5 --style raw" -->
-      <img class="scene-img active" data-scene="0" src="scene-1.svg" alt="Maja" width="400" height="500" fetchpriority="high">
-      <img class="scene-img" data-scene="1" src="scene-2.svg" alt="Maja" width="400" height="500" loading="lazy">
-      <img class="scene-img" data-scene="2" src="scene-3.svg" alt="Maja" width="400" height="500" loading="lazy">
+      <!-- AI-prompt forslag (Nano Banana / Midjourney): "candid intimate
+           portrait of a 20-year-old scandinavian woman, soft natural light,
+           warm coral tones, looking at camera with subtle smile, intimate
+           but tasteful, photorealistic, portrait 4:5" -->
+      <img class="scene-img active" data-scene="0" src="scene-1.svg" alt="Stine" width="400" height="500" fetchpriority="high">
+      <img class="scene-img" data-scene="1" src="scene-2.svg" alt="Stine" width="400" height="500" loading="lazy">
+      <img class="scene-img" data-scene="2" src="scene-3.svg" alt="Stine" width="400" height="500" loading="lazy">
 
       <div class="progress" aria-hidden="true">
         <div class="seg" data-seg="0"><i></i></div>
@@ -405,7 +415,7 @@ img{display:block;max-width:100%;height:auto}
 
       <div class="badges">
         <span class="tag live">Online nå</span>
-        <span class="tag">28 · <span data-city>Oslo</span></span>
+        <span class="tag">20 · <span data-city>Oslo</span></span>
       </div>
 
       <button class="tap-zone tap-prev" type="button" data-tap="prev" aria-label="Forrige scene"></button>
@@ -417,31 +427,31 @@ img{display:block;max-width:100%;height:auto}
 
     <div class="profile-body">
       <div class="name-row">
-        <h2 class="profile-name">Maja</h2>
-        <span class="profile-meta">28 · <span data-city>Oslo</span></span>
+        <h2 class="profile-name">Stine</h2>
+        <span class="profile-meta">20 · <span data-city>Oslo</span></span>
       </div>
 
       <!-- Scene-tekster — rediger her for å endre fortellingen.
            Hver scene vises ~6 sekunder før neste fades inn. -->
       <div class="scene-text-wrap">
-        <p class="scene-text active" data-scene="0">Hei :) Heter Maja, 28, og er skilt. Bor <span data-in-place>i Oslo</span>. Ikke ute etter noe seriøst, bare lyst på sex.</p>
-        <p class="scene-text" data-scene="1">Liker menn som tar styringen og er direkte. Helst diskret, og helst i kveld.</p>
-        <p class="scene-text" data-scene="2">Bare skriv hva du har lyst på, så møtes vi i kveld. Er så jævlig kåt...</p>
+        <p class="scene-text active" data-scene="0">Hei :) Stine her, 20 og singel. Bor <span data-in-place>i Oslo</span>. Ikke ute etter noe seriøst, bare lyst på sex 😍</p>
+        <p class="scene-text" data-scene="1">Liker menn som tar styringen og er direkte ❤️ Helst diskret, og helst i kveld.</p>
+        <p class="scene-text" data-scene="2">Bare skriv hva du har lyst på, så møtes vi i kveld. Er så jævlig kåt… 😻</p>
       </div>
 
       <div class="cta-row">
         <div class="online-status" aria-live="polite">
           <span class="dot-green" aria-hidden="true"></span>
-          <span>Maja er online akkurat nå</span>
+          <span>Stine er online akkurat nå</span>
         </div>
-        <a class="btn btn-cta" id="primaryCta" data-cta href="#" rel="noopener nofollow sponsored" aria-label="Skriv til Maja">
+        <a class="btn btn-cta" id="primaryCta" data-cta href="#" rel="noopener nofollow sponsored" aria-label="Skriv til Stine">
           <svg class="ico-chat" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M4 5C4 3.9 4.9 3 6 3H18C19.1 3 20 3.9 20 5V14C20 15.1 19.1 16 18 16H11L7 20V16H6C4.9 16 4 15.1 4 14V5Z" fill="currentColor"/>
             <circle cx="9" cy="9.5" r="1.1" fill="#FBE7E2"/>
             <circle cx="12" cy="9.5" r="1.1" fill="#FBE7E2"/>
             <circle cx="15" cy="9.5" r="1.1" fill="#FBE7E2"/>
           </svg>
-          Skriv til Maja
+          Skriv til Stine
         </a>
         <p class="cta-sub">Gratis å bli med · Diskret · 18+</p>
       </div>
@@ -540,7 +550,13 @@ img{display:block;max-width:100%;height:auto}
       if (i === idx) seg.classList.add('active');
     });
     if (navPrev) navPrev.disabled = idx === 0;
-    if (navNext) navNext.disabled = idx === totalScenes - 1;
+    if (navNext){
+      // Siste scene: høyrepil blir CTA istedenfor disabled
+      var isLast = idx === totalScenes - 1;
+      navNext.disabled = false;
+      navNext.classList.toggle('is-cta', isLast);
+      navNext.setAttribute('aria-label', isLast ? 'Skriv til Stine' : 'Neste scene');
+    }
   }
 
   function startScene(idx){
@@ -557,14 +573,24 @@ img{display:block;max-width:100%;height:auto}
   function next(){ if (currentScene < totalScenes - 1) startScene(currentScene + 1); }
   function prev(){ if (currentScene > 0) startScene(currentScene - 1); }
 
+  // På siste scene leder forward-gesten (tap-next, navNext, ArrowRight)
+  // til CTA istedenfor å stoppe — fanger naturlig "scroll-to-action"-momentum.
+  function forwardOrConvert(){
+    if (currentScene === totalScenes - 1){
+      var href = primaryCta && primaryCta.getAttribute('href');
+      if (href) window.location.href = href;
+    } else {
+      next();
+    }
+  }
   if (tapPrev) tapPrev.addEventListener('click', prev);
-  if (tapNext) tapNext.addEventListener('click', next);
+  if (tapNext) tapNext.addEventListener('click', forwardOrConvert);
   if (navPrev) navPrev.addEventListener('click', prev);
-  if (navNext) navNext.addEventListener('click', next);
+  if (navNext) navNext.addEventListener('click', forwardOrConvert);
 
   document.addEventListener('keydown', function(e){
     if (!ageGate.hidden) return;
-    if (e.key === 'ArrowRight'){ e.preventDefault(); next(); }
+    if (e.key === 'ArrowRight'){ e.preventDefault(); forwardOrConvert(); }
     else if (e.key === 'ArrowLeft'){ e.preventDefault(); prev(); }
   });
 
@@ -615,13 +641,13 @@ img{display:block;max-width:100%;height:auto}
     document.querySelectorAll('[data-in-place]').forEach(function(el){ el.textContent = g.inPhrase; });
     document.querySelectorAll('.scene-img').forEach(function(img){
       var alt = img.getAttribute('alt') || '';
-      if (alt === 'Maja') img.setAttribute('alt', 'Maja, ' + g.place);
+      if (alt === 'Stine') img.setAttribute('alt', 'Stine, ' + g.place);
     });
     var titlePlace = g.level === 'fallback' ? FALLBACK_PLACE : g.place;
-    document.title = 'Maja, 28 ' + g.inPhrase + ' | ' + SITE_NAME;
+    document.title = 'Stine, 20 ' + g.inPhrase + ' | ' + SITE_NAME;
     var meta = function(sel, val){ var m = document.querySelector(sel); if (m) m.setAttribute('content', val); };
-    meta('meta[name="description"]', 'Maja, 28, ' + g.inPhrase + '. Søker sex i kveld, diskret og ingen forpliktelser.');
-    meta('meta[property="og:title"]', 'Maja, 28 ' + g.inPhrase + ' | ' + SITE_NAME);
+    meta('meta[name="description"]', 'Stine, 20, ' + g.inPhrase + '. Søker sex i kveld, diskret og ingen forpliktelser.');
+    meta('meta[property="og:title"]', 'Stine, 20 ' + g.inPhrase + ' | ' + SITE_NAME);
 
     var href = REDIRECT_URL
       .replace('{CITY}', encodeURIComponent(g.place))
