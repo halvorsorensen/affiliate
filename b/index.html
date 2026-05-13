@@ -292,21 +292,6 @@ img{display:block;max-width:100%;height:auto}
   pointer-events:auto;
 }
 
-/* Watcher-tall — "X menn ser på profilen akkurat nå" */
-.watchers{
-  font-size:13px;
-  color:var(--navy-soft);
-  display:flex;align-items:center;gap:6px;
-  letter-spacing:.01em;
-}
-.watchers .dot{
-  width:7px;height:7px;border-radius:50%;
-  background:#2ECC71;
-  box-shadow:0 0 0 0 rgba(46,204,113,.7);
-  animation:pulse 1.6s infinite;
-  display:inline-block;
-}
-
 .cta-row{display:flex;flex-direction:column;gap:8px;margin-top:4px}
 
 /* Online-status rett over CTA — knytter "hun er her nå" til selve handlingen */
@@ -444,11 +429,6 @@ img{display:block;max-width:100%;height:auto}
         <p class="scene-text" data-scene="2">Bare skriv hva du har lyst på, så møtes vi i kveld. Er så jævlig kåt...</p>
       </div>
 
-      <div class="watchers" aria-live="polite">
-        <span class="dot" aria-hidden="true"></span>
-        <span><span id="watchers">9</span> menn ser på profilen nå</span>
-      </div>
-
       <div class="cta-row">
         <div class="online-status" aria-live="polite">
           <span class="dot-green" aria-hidden="true"></span>
@@ -513,7 +493,6 @@ img{display:block;max-width:100%;height:auto}
   var ageYes   = document.getElementById('ageYes');
   var ageNo    = document.getElementById('ageNo');
   var app      = document.getElementById('app');
-  var watchersEl = document.getElementById('watchers');
 
   var totalScenes = images.length;
   var currentScene = 0;
@@ -648,8 +627,6 @@ img{display:block;max-width:100%;height:auto}
       .replace('{CITY}', encodeURIComponent(g.place))
       .replace('{LEVEL}', encodeURIComponent(g.level));
     ctas.forEach(function(a){ a.setAttribute('href', href); });
-
-    startWatchers(g);
   }
   function loadGeo(){
     var urlPlace = readUrlGeo();
@@ -672,41 +649,6 @@ img{display:block;max-width:100%;height:auto}
   }
   loadGeo();
 
-  // =========================================================
-  // WATCHERS COUNTER — "X menn ser på profilen akkurat nå"
-  // Lave realistiske tall for én enkelt profil: storby 8-22,
-  // småby 2-9, fylke 4-12, fallback 5-15. ±1 per tick, smooth drift.
-  // =========================================================
-  var BIG_CITIES = ['Oslo','Bergen','Trondheim','Stavanger','Drammen','Tromsø','Kristiansand','Fredrikstad','Sandnes','Sarpsborg','Skien','Bodø','Ålesund','Tønsberg','Moss','Haugesund','Sandefjord','Arendal'];
-  var watcherTimer = null;
-
-  function watcherBase(g){
-    var rand = function(a,b){ return a + Math.floor(Math.random() * (b - a + 1)); };
-    if (g.level === 'fallback') return rand(5, 14);
-    if (g.level === 'region')   return rand(4, 11);
-    if (BIG_CITIES.indexOf(g.place) !== -1) return rand(9, 21);
-    return rand(2, 8);
-  }
-
-  function startWatchers(geo){
-    if (!watchersEl) return;
-    if (watcherTimer){ clearTimeout(watcherTimer); watcherTimer = null; }
-    var base = watcherBase(geo);
-    var min  = Math.max(2, base - 3);
-    var max  = base + 3;
-    var cur  = parseInt(watchersEl.textContent, 10);
-    if (isNaN(cur) || cur < 1) cur = base;
-    watchersEl.textContent = cur;
-    function tick(){
-      if (cur > max){ cur -= 1; }
-      else if (cur < min){ cur += 1; }
-      else { cur += Math.random() < 0.5 ? -1 : 1; }
-      if (cur < 2) cur = 2;
-      watchersEl.textContent = cur;
-      watcherTimer = setTimeout(tick, 3000 + Math.random() * 2200);
-    }
-    watcherTimer = setTimeout(tick, 3000 + Math.random() * 2200);
-  }
 })();
 </script>
 </body>
